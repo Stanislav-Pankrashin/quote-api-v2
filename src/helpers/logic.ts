@@ -34,7 +34,7 @@ const randomQuotes = (file: string, n: any) => {
     while (data.length < amount) {
       const index: number = Math.floor(Math.random() * quotesCopy.length);
       data.push(quotesCopy[index]);
-      quotesCopy.splice(index, 1);
+      quotesCopy.slice(index, 1);
     }
     return data;
   }
