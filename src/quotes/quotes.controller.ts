@@ -1,14 +1,13 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import { QuotesService } from './quotes.service';
+import { CreateQuoteDto } from '../dto/create-quote.dto';
 
 @Controller('quotes')
 export class QuotesController {
   constructor(private readonly quotesService: QuotesService) {}
 
   @Get(':file')
-  sendFile(@Param() params): string {
-    const file = params.file;
-
+  sendFile(@Param('file') file: string): string {
     try {
       return this.quotesService.allQuotes(file);
     } catch (error) {
@@ -26,16 +25,20 @@ export class QuotesController {
   }
 
   @Get(':file/:num')
-  sendQuote(@Param() params): string[] {
-    // tslint:disable-next-line: radix
-    const num = parseInt(params.num);
-
-    const file = params.file;
-
+  sendQuote(@Param('file') file: string, @Param('num') num: string): string[] {
     try {
-      return this.quotesService.randomQuotes(file, num);
+      // tslint:disable-next-line:radix
+      return this.quotesService.randomQuotes(file, parseInt(num));
     } catch (error) {
       return ['an error has occured'];
     }
+  }
+
+  @Post()
+  postQuote(@Body() createQuoteDto: CreateQuoteDto): string {
+    const name = createQuoteDto.file;
+    const quote = createQuoteDto.quote;
+
+    return '-1';
   }
 }

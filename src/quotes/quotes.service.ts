@@ -52,4 +52,8 @@ export class QuotesService {
   allFiles(): string[] {
     return this.files;
   }
+
+  addQuote(file, quote): string[] {
+    return [];
+  }
 }
